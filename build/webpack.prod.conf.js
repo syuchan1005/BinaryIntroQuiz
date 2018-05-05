@@ -12,6 +12,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
+const CssRewritePlugin = require('css-rewrite-webpack-plugin');
 const loadMinified = require('./load-minified')
 
 const env = process.env.NODE_ENV === 'testing'
@@ -52,6 +53,12 @@ const webpackConfig = merge(baseWebpackConfig, {
       cssProcessorOptions: {
         safe: true
       }
+    }),
+    new CssRewritePlugin({
+      fileReg: /(.*).css$/,
+      processor: function (source) {
+        return source.replace(/static\/fonts/g, '../fonts');
+      },
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html

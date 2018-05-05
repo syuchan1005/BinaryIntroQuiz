@@ -38,6 +38,7 @@
     "cross-env": "^5.0.5",
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.7",
+    "css-rewrite-webpack-plugin": "^0.1.1",
     "cssnano": "^3.10.0",
     "eslint": "^4.9.0",
     "eslint-config-airbnb-base": "^11.1.3",
