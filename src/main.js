@@ -18,6 +18,8 @@ Vue.mixin({
     if (title) {
       title = typeof title === 'function' ? title.call(this) : title;
       document.title = `${title} - BinaryIntroQuiz`;
+    } else {
+      document.title = 'BinaryIntroQuiz';
     }
   },
 });
