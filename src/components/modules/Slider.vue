@@ -3,7 +3,7 @@
     <div class="base" :style="baseStyle">
       <div class="text" :style="textStyle">{{ this.text }}</div>
       <div class="thumb" :style="thumbStyle"
-           @mousedown="mouseDown" @touchstart="touchStart" @touchend="touchEnd" @touchcancel="touchCancel"></div>
+           @mousedown="mouseDown" @touchstart="touchStart($event)"></div>
     </div>
   </div>
 </template>
@@ -91,17 +91,32 @@
         document.onmouseup = () => {
           this.setPercentage(0);
           document.onmousemove = null;
+          document.onmouseup = null;
           if (this.value === 100) this.$emit('select', this.value);
         };
       },
-      touchStart() {
+      touchStart(event) {
         this.setPercentage(0);
-      },
-      touchEnd() {
-        this.setPercentage(0);
-      },
-      touchCancel() {
-        this.setPercentage(0);
+        const firstTouch = event.touches[0];
+        document.ontouchmove = (e) => {
+          const moveSub = e.touches[0].clientX - firstTouch.clientX;
+          const fixedWidth = this.$refs.slider.clientWidth - this.$refs.slider.offsetHeight;
+          const percent = Math.round((moveSub / fixedWidth) * 100);
+          this.setPercentage(this.minmax(percent, 0, 100));
+        };
+        document.ontouchend = () => {
+          this.setPercentage(0);
+          document.ontouchmove = null;
+          document.ontouchend = null;
+          document.ontouchcancel = null;
+          if (this.value === 100) this.$emit('select', this.value);
+        };
+        document.ontouchcancel = () => {
+          this.setPercentage(0);
+          document.ontouchmove = null;
+          document.ontouchend = null;
+          document.ontouchcancel = null;
+        };
       },
       setPercentage(percent) {
         if (this.value !== percent) {
