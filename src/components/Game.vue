@@ -135,7 +135,7 @@
         this.ext = ext;
         this.$http({
           method: 'GET',
-          url: `static/questions/${this.ext}`,
+          url: `static/questions/${this.ext}.bin`,
           responseType: 'arraybuffer',
         }).then((response) => {
           const data = new Uint8Array(response.data);

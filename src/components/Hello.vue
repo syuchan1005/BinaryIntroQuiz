@@ -15,12 +15,11 @@
 </template>
 
 <script>
-  import ContentFrame from './modules/ContentFrame';
   import Slider from './modules/Slider';
 
   export default {
     name: 'hello',
-    components: { Slider, ContentFrame },
+    components: { Slider },
     data() {
       return {
         difficulty: {
